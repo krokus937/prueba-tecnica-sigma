@@ -55,5 +55,6 @@
             "message"=>"Error General: ".$error,
         ];
     }
+    echo json_encode($response, JSON_FORCE_OBJECT);
 
 ?>
