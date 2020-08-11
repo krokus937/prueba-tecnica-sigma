@@ -64,15 +64,23 @@
                             </div>
                             <div class="form-group">
                                 <label for="Email">Correo *</label>
-                                <input type="text " name="form-email " class="form-control " :class="{'is-invalid':ErrorEmail}" id="Email " v-model="Email" maxlength="30" placeholder="Pepitodejesus@gmail.com">
+                                <input type="text " name="Email " class="form-control " :class="{'is-invalid':ErrorEmail}" id="Email " v-model="Email" maxlength="30" placeholder="Pepitodejesus@gmail.com">
                                 <div v-if="ErrorEmail" class="invalid-feedback">
                                     {{MessageEmail}}
                                 </div>
                             </div>
                             <div class="form-group text-center">
-                                <button type="submit" class="btn btn-form">ENVIAR</button>
+                                <button class="btn btn-form">ENVIAR</button>
                             </div>
                         </form>
+                    </div>
+                    <div v-if="FormStatus" class="modal-alert-success">
+                        <button type="button" class="btn btn-close" @click="CloseModal">
+                                <span>&times;</span>
+                        </button>
+                        <div class="modal-body">
+                            {{MessageAlert}}
+                        </div>
                     </div>
                 </div>
 
@@ -118,7 +126,46 @@
                     });
                 }
             },
+            CheckForm() {
+                this.ErrorDepartament = this.Departament === null ? true : false;
+                this.ErrorCity = this.City === null ? true : false;
+                this.ErrorName = this.Name === null ? true : false;
 
+                if (!this.Email) {
+                    this.ErrorEmail = true
+                    this.MessageEmail = "Campo requerido.";
+                } else if (this.validEmail(this.email)) {
+                    this.ErrorEmail = true
+                    this.MessageEmail = "Validar si el correo esta Correctamente.";
+                } else {
+                    this.ErrorEmail = false
+                    this.MessageEmail = "";
+                }
+
+                if (!this.ErrorDepartament && !this.ErrorCity && !this.ErrorName && this.Email) {
+                    axios
+                        .post('EnvioDatos.php', {
+                            Departament: this.Departament,
+                            City: this.City,
+                            Name: this.Name,
+                            Email: this.Email
+                        })
+                        .then(response => {
+                            console.log(response);
+                            this.MessageAlert = response.data.message;
+                            this.FormStatus = true;
+                        })
+                        .catch(error => console.log(error))
+                }
+            },
+            validEmail: function(email) {
+                var re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                return re.test(email);
+            },
+            CloseModal() {
+                this.FormStatus = false;
+                location.reload();
+            }
         },
         mounted() {
             axios
@@ -138,7 +185,31 @@
                 .catch(error => console.log(error))
 
         },
-        watch: {}
+        watch: {
+            City(newValue, oldValue) {
+                if (newValue != null && newValue != "") {
+                    this.ErrorCity = false
+                } else {
+                    this.ErrorCity = true
+                }
+            },
+            Name(newValue, oldValue) {
+                if (newValue != null && newValue != "") {
+                    this.ErrorName = false
+                } else {
+                    this.ErrorName = true
+                }
+            },
+            Email(newValue, oldValue) {
+                if (!this.validEmail(newValue)) {
+                    this.ErrorEmail = true
+                    this.MessageEmail = "Validar si el correo esta Correctamente.";
+                } else {
+                    this.ErrorEmail = false
+                    this.MessageEmail = "";
+                }
+            }
+        }
     })
 </script>
 

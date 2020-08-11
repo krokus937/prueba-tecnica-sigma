@@ -61,6 +61,67 @@
     color: #3B3174;
 }
 
+.btn-form.focus,
+.btn-form:focus {
+    box-shadow: none !important;
+}
+
+
+/* Modal de saticfaccion */
+
+.modal-alert-success {
+    position: fixed;
+    border: 1px solid gray;
+    background: #3e2e77;
+    border-top-left-radius: 30px;
+    color: white;
+    padding: 15px;
+    padding-top: 5px;
+    right: 0;
+    animation: slideModalAlert 2s;
+}
+
+.btn-close {
+    margin: 0;
+    padding: 0;
+    color: white;
+    font-size: 22px;
+    border: none;
+}
+
+.btn-close:hover {
+    transform: scale(1.5);
+    color: white;
+    border: none;
+}
+
+.btn-close.focus,
+.btn-close:focus {
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.close-modal-alert {
+    position: fixed;
+    border: 1px solid gray;
+    background: #3e2e77;
+    border-top-left-radius: 30px;
+    color: white;
+    padding: 15px;
+    padding-top: 5px;
+    right: 0;
+    animation: slideCloseModalAlert 2s;
+}
+
+@keyframes slideModalAlert {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
 @media (max-width: 768px) {
     .text-header {
         width: 100%;
