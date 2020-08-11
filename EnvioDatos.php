@@ -8,8 +8,10 @@
     if($method == "OPTIONS" || $method == "GET" || $method == "PUT" || $method == "DELETE") {
         die();
     }
+    //Lectura de la peticion
     $json = file_get_contents('php://input');
     $data=json_decode($json);
+    
     header('Content-Type: application/json');
 
     try{
