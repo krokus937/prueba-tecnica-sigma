@@ -11,3 +11,64 @@
 .logo {
     margin: 0 0 1.5rem;
 }
+
+.text-header {
+    width: 90%;
+}
+
+.title {
+    font-size: 28px;
+    font-weight: 700;
+}
+
+.description {
+    font-size: 15px;
+    line-height: 20px;
+    opacity: 0.7;
+}
+
+.form {
+    margin: 10% 5%;
+}
+
+.form label {
+    font-size: 15px;
+    font-weight: 900 !important;
+}
+
+.form input,
+.form select {
+    font-size: 15px;
+    opacity: .6;
+}
+
+.rounded-form {
+    border-radius: 25px !important;
+    border-top-left-radius: 10px !important;
+}
+
+.btn-form {
+    margin-top: 10px;
+    background-color: #E03B65;
+    color: white;
+    padding: 12px 40px;
+    border-radius: 30px;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.btn-form:hover {
+    color: #3B3174;
+}
+
+@media (max-width: 768px) {
+    .text-header {
+        width: 100%;
+    }
+}
+
+@media (min-width: 768px) {
+    .col-lg-6 .media-col {
+        max-width: 48%;
+    }
+}
