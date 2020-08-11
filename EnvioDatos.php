@@ -20,7 +20,28 @@
         $Connection = new PDO("mysql:host=$ServerName;dbname=$DataBaseName", $UserName, $Password);
         $Connection->exec("set names utf8");
 
+        if(isset($data->Departament) && isset($data->City) && isset($data->Name) && isset($data->Email)){
+            $Departament=$data->Departament;
+            $City=$data->City;
+            $Name=$data->Name;
+            $Email=$data->Email;
 
+            $InsertData=$Connection->prepare("INSERT INTO contacts (name,email,state,city) VALUES (?,?,?,?)");
+            $InsertData->bindParam(1, $Name);
+            $InsertData->bindParam(2, $Email);
+            $InsertData->bindParam(3, $Departament);
+            $InsertData->bindParam(4, $City);
+            $InsertData->execute();
+            http_response_code(201);
+            $response=array(
+                "message"=>"Tu información ha sido recibida satisfactoriamente"
+            );
+        }else{
+            http_response_code(400);
+            $response=[
+                "message"=>"Error: los parametros enviados estan errados ",
+            ];
+        }
     }catch(PDOException $error){
         http_response_code(400);
         $error->getMessage();
