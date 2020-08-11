@@ -8,10 +8,12 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;500;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 
 <body>
-    <div class="container">
+    <div id="app" class="container">
         <div class="row justify-content-center align-items-center">
             <div class="col-10">
                 <div class="row justify-content-center pl-2 pr-2 pb-3 pb-md-5 pl-md-5 pr-md-5">
@@ -67,5 +69,15 @@
     </div>
 
 </body>
+
+<script>
+    var app = new Vue({
+        el: '#app',
+        data: {},
+        methods: {},
+        mounted() {},
+        watch: {}
+    })
+</script>
 
 </html>
