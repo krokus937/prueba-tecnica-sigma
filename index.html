@@ -34,31 +34,44 @@
                         <img src="img/sigma-image.png" class="img-fluid" alt="">
                     </div>
                     <div class="col-12 col-md-6 col-lg-6 media-col shadow bg-white rounded-form ">
-                        <form class="form">
+                        <form class="form" @submit.prevent="CheckForm" method="POST">
                             <div class="form-group">
                                 <label for="Departament">Departamento *</label>
-                                <select name="Departament" class="form-control" id="Departament">
-                                    <option disabled selected>Antioquia</option>
+                                <select name="Departament" class="form-control" :class="{'is-invalid':ErrorDepartament}" id="Departament" @change="changeDepartament(Departament)" v-model="Departament">
+                                    <option :value="null" disabled selected>Seleccionar un departamento</option>
+                                    <option v-for="(Departament,index) in OptionsDepartament" :value="Departament.value" :key="index">{{Departament.text}}</option>
                                 </select>
+                                <div v-if="ErrorDepartament" class="invalid-feedback">
+                                    Campo requerido
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="City">Ciudad *</label>
-                                <select name="City" class="form-control" id="City">
-                                    <option disabled selected>Medellin</option>
+                                <select name="City" class="form-control" id="City" :class="{'is-invalid':ErrorCity}" v-model="City">
+                                    <option :value="null" disabled selected>Seleccionar una ciudad</option>
+                                    <option  v-for="(City,index) in OptionsCity" :value="City.value" :key="index">{{City.text}}</option>
                                 </select>
+                                <div v-if="ErrorCity" class="invalid-feedback">
+                                    Campo requerido
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="Name">Nombre *</label>
-                                <input type="text" name="Name" class="form-control" id="Name" placeholder="Pepito de Jesús">
+                                <input type="text" name="Name" class="form-control" id="Name" :class="{'is-invalid':ErrorName}" v-model="Name" maxlength="50" placeholder="Pepito de Jesús">
+                                <div v-if="ErrorName" class="invalid-feedback">
+                                    Campo requerido
+                                </div>
                             </div>
                             <div class="form-group">
                                 <label for="Email">Correo *</label>
-                                <input type="text" name="Email" class="form-control" id="Email" placeholder="Pepitodejesus@gmail.com">
+                                <input type="text " name="form-email " class="form-control " :class="{'is-invalid':ErrorEmail}" id="Email " v-model="Email" maxlength="30" placeholder="Pepitodejesus@gmail.com">
+                                <div v-if="ErrorEmail" class="invalid-feedback">
+                                    {{MessageEmail}}
+                                </div>
                             </div>
                             <div class="form-group text-center">
                                 <button type="submit" class="btn btn-form">ENVIAR</button>
                             </div>
-
                         </form>
                     </div>
                 </div>
@@ -73,9 +86,58 @@
 <script>
     var app = new Vue({
         el: '#app',
-        data: {},
-        methods: {},
-        mounted() {},
+        data: {
+            DataTreeDepartament: [],
+            OptionsDepartament: [],
+            Departament: null,
+            OptionsCity: [],
+            City: null,
+            Name: null,
+            Email: null,
+            //Agrega clase de error
+            ErrorDepartament: false,
+            ErrorCity: false,
+            ErrorName: false,
+            ErrorEmail: false,
+            //Mesaje dinamico con respecto al validador de correo 
+            MessageEmail: "",
+            //Estado Final del formulario
+            FormStatus: false,
+            //mesaje alerta
+            MessageAlert: null
+        },
+        methods: {
+            changeDepartament(OptionDepartament) {
+                this.OptionsCity = [];
+                this.City = null;
+                this.ErrorDepartament = this.Departament === null ? true : false;
+                for (const City of this.DataTreeDepartament[OptionDepartament]) {
+                    this.OptionsCity.push({
+                        text: `${City}`,
+                        value: `${City}`
+                    });
+                }
+            },
+
+        },
+        mounted() {
+            axios
+                .get('https://sigma-studios.s3-us-west-2.amazonaws.com/test/colombia.json')
+                .then(response => {
+                    this.DataTreeDepartament = response.data
+
+                    for (const Departament in response.data) {
+
+                        this.OptionsDepartament.push({
+                            text: `${Departament}`,
+                            value: `${Departament}`
+                        });
+                    }
+
+                })
+                .catch(error => console.log(error))
+
+        },
         watch: {}
     })
 </script>
